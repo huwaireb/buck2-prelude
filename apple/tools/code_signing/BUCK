@@ -5,19 +5,10 @@ oncall("build_infra")
 
 source_listing()
 
-configured_alias(
-    name = "dummy_binary_for_signing_configured",
-    actual = ":dummy_binary_for_signing",
-    platform = "config//platform/macos:base",
-)
-
 platform(
     name = "dummy_binary_for_signing_platform",
     constraint_values = [
         "config//cpu/constraints:arm64",
-    ],
-    deps = [
-        "config//platform/macos:base",
     ],
 )
 
@@ -38,7 +29,6 @@ python_library(
             "main.py",
         ],
     ),
-    resources = [":dummy_binary_for_signing_configured"],
     visibility = ["PUBLIC"],
     deps = [
         "prelude//apple/tools:plistlib_utils",
@@ -63,7 +53,6 @@ python_binary(
     main = "main.py",
     visibility = ["PUBLIC"],
     deps = [
-        "fbsource//third-party/pypi/typed-argument-parser:typed-argument-parser",
         ":lib",
     ],
 )

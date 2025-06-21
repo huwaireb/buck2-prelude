@@ -15,7 +15,7 @@ def _apple_tools_impl(ctx: AnalysisContext) -> list[Provider]:
             assemble_bundle = ctx.attrs.assemble_bundle[RunInfo],
             split_arch_combine_dsym_bundles_tool = ctx.attrs.split_arch_combine_dsym_bundles_tool[RunInfo],
             dry_codesign_tool = ctx.attrs.dry_codesign_tool[RunInfo],
-            adhoc_codesign_tool = ctx.attrs.adhoc_codesign_tool[RunInfo],
+            adhoc_codesign_tool = RunInfo(args = ["/usr/bin/codesign"]),
             info_plist_processor = ctx.attrs.info_plist_processor[RunInfo],
             ipa_package_maker = ctx.attrs.ipa_package_maker[RunInfo],
             make_modulemap = ctx.attrs.make_modulemap[RunInfo],
@@ -35,7 +35,6 @@ registration_spec = RuleRegistrationSpec(
     name = "apple_tools",
     impl = _apple_tools_impl,
     attrs = {
-        "adhoc_codesign_tool": attrs.option(attrs.exec_dep(providers = [RunInfo]), default = None),
         "assemble_bundle": attrs.exec_dep(providers = [RunInfo]),
         "dry_codesign_tool": attrs.exec_dep(providers = [RunInfo]),
         "framework_sanitizer": attrs.exec_dep(providers = [RunInfo]),
